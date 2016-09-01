@@ -1,0 +1,46 @@
+function w=spamupdate(w,email,truth);
+%function w=spamupdate(w,email,truth);
+%
+% Input:
+% w 	weight vector
+% email instance vector
+% truth label
+%
+% Output:
+%
+% updated weight vector
+% 
+preds=linclassify(w,email);
+newloss(1)=sum((w'*email-preds).^2)+lambda*w'*w;
+
+neww=w-0.1*gradient;
+newpreds=linclassify(neww,email);
+newloss(2)=sum((neww'*email-newpreds).^2)+lambda*neww'*neww;
+k=2
+while(newloss(2)<newloss(1))
+    neww=neww-0.1*gradient;
+    
+
+% k=2;
+% stepsize=
+% neww=w;
+% func=@(w) ridge(w,xTr,yTr,0.1);
+% [loss(2),gradient] = feval(func,w);
+% neww=w-1.01*stepsize*gradient;
+%     while (norm(gradient)>=tolerance)&&(k<=maxiter)
+%          k=k+1;
+%         [loss(k),gradient] = feval(func,w);
+%         if loss(k)<loss(k-1)
+%             temp=w;
+%             stepsize=1.01*stepsize;
+%             w=w-stepsize*gradient;
+%         else
+%             temp=w;
+%             stepsize=0.5*stepsize;
+%             w=w-stepsize*gradient;
+%         end
+% 
+%     end;
+%    w=temp;
+% end
+

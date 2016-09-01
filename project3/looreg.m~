@@ -1,0 +1,29 @@
+function err=looreg(xTr,yTr);
+%	function err=looreg(xTr,yTr);
+%
+%   INPUT:
+%   xTr = dxn matrix of n input vectors 
+%	yTr = 1xn vector of n target values
+%
+%   OUTPUT:
+%   err = root mean-squared error of linear regression with LOOCV
+%
+MAXITER=100;
+STEPSIZE=1e-01;
+[d,n]=size(xTr);
+for i=1:n
+    tempx=xTr;
+    tempy=yTr;
+    tempx(:,i)=[];
+    tempy(:,i)=[];
+    wh=grdescent(@(w) ridge(w,tempx,tempy,0.1),zeros(d,1),STEPSIZE,MAXITER);
+
+    preds(1,i)=linclassify(wh,xTr(:,i));
+
+end
+loocv=sum((yTr-preds).^2);
+err=((1/n)*loocv)^(1/2);
+	
+
+
+
